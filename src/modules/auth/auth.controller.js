@@ -1,8 +1,9 @@
-import { validate } from '../../middlewares/validate.js';
-import { registerSchema, loginSchema } from './schemas.js';
-import { loginUser, refreshSession, registerUser, logoutSession } from './auth.service.js';
-import { BadRequest } from '../../utils/errors.js';
-import { env } from '../../config/env.js';
+const { validate } = require('../../middlewares/validate.js');
+const { registerSchema, loginSchema } = require('./schemas.js');
+const { loginUser, refreshSession, registerUser, logoutSession } = require('./auth.service.js');
+const { BadRequest } = require('../../utils/errors.js');
+const { env } = require('../../config/env.js');
+
 
 const refreshCookieOpts = {
   httpOnly: true,

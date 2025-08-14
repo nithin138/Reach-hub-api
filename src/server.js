@@ -1,10 +1,11 @@
-import http from 'http';
-import { Server } from 'socket.io';
-import app from './app.js';
-import { connectDB } from './config/db.js';
-import { env } from './config/env.js';
-import { connectRedis, redis } from './config/redis.js';
-import { logger } from './utils/logger.js';
+const http = require('http');
+const { Server } = require('socket.io');
+const app = require('./app');
+const { connectDB } = require('./config/db');
+const { env } = require('./config/env');
+const { connectRedis, redis } = require('./config/redis');
+const { logger } = require('./utils/logger');
+
 
 const server = http.createServer(app);
 const io = new Server(server, {

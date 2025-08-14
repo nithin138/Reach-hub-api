@@ -1,10 +1,10 @@
-import { Router } from 'express';
-import { protect } from '../../middlewares/authMiddleware.js';
-import { requireRole } from '../../middlewares/roleMiddleware.js';
-import {
+const { Router } = require('express');
+const { protect } = require('../../middlewares/authMiddleware.js');
+const { requireRole } = require('../../middlewares/roleMiddleware.js');
+const {
   listSubcategories, getSubcategory, createSubcategory, updateSubcategory, removeSubcategory,
   listByCategorySlug
-} from './subcategory.controller.js';
+} = require('./subcategory.controller.js');
 
 const router = Router();
 

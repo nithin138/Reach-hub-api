@@ -1,4 +1,4 @@
-import 'dotenv/config.js';
+require('dotenv/config.js');
 
 export const env = {
   node: process.env.NODE_ENV || 'development',

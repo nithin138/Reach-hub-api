@@ -1,7 +1,7 @@
-import { Router } from 'express';
-import { protect } from '../../middlewares/authMiddleware.js';
-import { requireRole } from '../../middlewares/roleMiddleware.js';
-import { listCategories, getCategory, createCategory, updateCategory, removeCategory } from './category.controller.js';
+const { Router } = require('express');
+const { protect } = require('../../middlewares/authMiddleware.js');
+const { requireRole } = require('../../middlewares/roleMiddleware.js');
+const { listCategories, getCategory, createCategory, updateCategory, removeCategory } = require('./category.controller.js');
 
 const router = Router();
 

@@ -1,10 +1,10 @@
-import { ApiError } from '../utils/errors.js';
+const { ApiError } =  require('../utils/error');
 
-export const notFound = (req, res, next) => {
+exports.notFound = (req, res, next) => {
   next(new ApiError(404, `Not Found - ${req.originalUrl}`));
 };
 
-export const errorHandler = (err, req, res, next) => {
+exports.errorHandler = (err, req, res, next) => {
   const status = err instanceof ApiError ? err.status : (res.statusCode && res.statusCode !== 200 ? res.statusCode : 500);
   const payload = {
     success: false,

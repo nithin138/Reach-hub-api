@@ -1,8 +1,8 @@
-import { Router } from 'express';
-import { protect } from '../../middlewares/authMiddleware.js';
-import { requireRole } from '../../middlewares/roleMiddleware.js';
-import { listServices, getService, createService, updateService, deleteService } from './service.controller.js';
-import { upload } from '../../utils/fileUpload.js';
+const { Router } = require('express');
+const { protect } = require('../../middlewares/authMiddleware.js');
+const { requireRole } = require('../../middlewares/roleMiddleware.js');
+const { listServices, getService, createService, updateService, deleteService } = require('./service.controller.js');
+const { upload } = require('../../utils/fileUpload.js');
 
 const router = Router();
 

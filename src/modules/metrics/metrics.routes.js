@@ -1,5 +1,5 @@
-import { Router } from 'express';
-import client from 'prom-client';
+const { Router } = require('express');
+const client = require('prom-client');
 
 const router = Router();
 const collectDefaultMetrics = client.collectDefaultMetrics;
@@ -12,4 +12,4 @@ router.get('/metrics', async (req, res) => {
   res.end(await client.register.metrics());
 });
 
-export default router;
+module.exports = router;

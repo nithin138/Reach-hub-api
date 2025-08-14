@@ -1,16 +1,18 @@
-import { ApiError } from '../utils/errors.js';
+const helmet = require('helmet');
+const hpp = require('hpp');
+const compression = require('compression');
+const rateLimit = require('express-rate-limit');
 
-export const notFound = (req, res, next) => {
-  next(new ApiError(404, `Not Found - ${req.originalUrl}`));
-};
 
-export const errorHandler = (err, req, res, next) => {
-  const status = err instanceof ApiError ? err.status : (res.statusCode && res.statusCode !== 200 ? res.statusCode : 500);
-  const payload = {
-    success: false,
-    message: err.message || 'Server error'
-  };
-  if (err.meta) payload.meta = err.meta;
-  if (process.env.NODE_ENV !== 'production' && err.stack) payload.stack = err.stack;
-  res.status(status).json(payload);
-};
+export const security = [
+  helmet(),
+  hpp(),
+  compression(),
+];
+
+export const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 300, // 300 req / 15min per IP
+  standardHeaders: true,
+  legacyHeaders: false
+});

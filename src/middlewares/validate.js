@@ -1,4 +1,4 @@
-import { BadRequest } from '../utils/errors.js';
+const { BadRequest } = require('../utils/errors.js');
 
 /**
  * validate({ body: zodSchema, query: zodSchema, params: zodSchema })

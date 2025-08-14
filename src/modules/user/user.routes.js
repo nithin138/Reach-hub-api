@@ -1,5 +1,5 @@
-import { Router } from 'express';
-import { protect } from '../../middlewares/authMiddleware.js';
+const { Router } = require('express');
+const { protect } = require('../../middlewares/authMiddleware.js');
 
 const router = Router();
 

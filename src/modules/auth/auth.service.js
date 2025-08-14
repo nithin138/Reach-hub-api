@@ -1,9 +1,9 @@
-import { v4 as uuid } from 'uuid';
-import User from './auth.model.js';
-import { signAccess, signRefresh, verifyRefresh } from '../../config/jwt.js';
-import ms from 'ms';
-import { storeRefresh, consumeRefresh, revokeRefresh } from './session.store.js';
-import { env } from '../../config/env.js';
+const { v4: uuid } = require('uuid');
+const User = require('./auth.model.js');
+const { signAccess, signRefresh, verifyRefresh } = require('../../config/jwt.js');
+const ms = require('ms');
+const { storeRefresh, consumeRefresh, revokeRefresh } = require('./session.store.js');
+const { env } = require('../../config/env.js');
 
 export const registerUser = async ({ name, email, password, role = 'user', phone }) => {
   const exists = await User.findOne({ email });

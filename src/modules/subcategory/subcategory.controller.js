@@ -1,5 +1,5 @@
-import Subcategory from './subcategory.model.js';
-import Category from '../category/category.model.js';
+const Subcategory = require('./subcategory.model.js');
+const Category = require('../category/category.model.js');
 
 const toSlug = (s) => s.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
 

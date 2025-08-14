@@ -1,6 +1,6 @@
-import Enquiry from './enquiry.model.js';
-import Service from '../service/service.model.js';
-import { sendEmail } from '../../utils/email.js';
+const Enquiry = require('./enquiry.model.js');
+const Service = require('../service/service.model.js');
+const { sendEmail } = require('../../utils/email.js');
 
 export const createEnquiry = async (req, res, next) => {
   try {

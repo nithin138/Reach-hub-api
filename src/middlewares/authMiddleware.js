@@ -1,5 +1,5 @@
-import { verifyAccess } from '../config/jwt.js';
-import { Unauthorized, Forbidden } from '../utils/errors.js';
+const { verifyAccess }  = require( '../config/jwt.js');
+const { Unauthorized, Forbidden } = require( '../utils/errors.js');
 
 export const protect = (req, res, next) => {
   const header = req.headers.authorization || '';

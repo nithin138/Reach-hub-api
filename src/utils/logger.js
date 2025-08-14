@@ -1,5 +1,5 @@
-import pino from 'pino';
-import pinoHttp from 'pino-http';
+const pino = require('pino');
+const pinoHttp = require('pino-http');
 
 export const logger = pino({
   transport: process.env.NODE_ENV === 'development'

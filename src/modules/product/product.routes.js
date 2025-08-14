@@ -1,7 +1,7 @@
-import { Router } from 'express';
-import { protect } from '../../middlewares/authMiddleware.js';
-import { requireRole } from '../../middlewares/roleMiddleware.js';
-import { listProducts, getProduct, createProduct, updateProduct, deleteProduct } from './product.controller.js';
+const { Router } = require('express');
+const { protect } = require('../../middlewares/authMiddleware.js');
+const { requireRole } = require('../../middlewares/roleMiddleware.js');
+const { listProducts, getProduct, createProduct, updateProduct, deleteProduct } = require('./product.controller.js');
 
 const router = Router();
 

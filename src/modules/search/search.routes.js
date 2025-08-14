@@ -1,6 +1,6 @@
-import { Router } from 'express';
-import Service from '../service/service.model.js';
-import Product from '../product/product.model.js';
+const { Router } = require('express');
+const Service = require('../service/service.model.js');
+const Product = require('../product/product.model.js');
 
 const router = Router();
 

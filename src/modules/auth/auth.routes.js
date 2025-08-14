@@ -1,6 +1,6 @@
-import { Router } from 'express';
-import { protect } from '../../middlewares/authMiddleware.js';
-import { login, me, refresh, register, logout } from './auth.controller.js';
+const { Router } = require( 'express');
+const { protect } = require( '../../middlewares/authMiddleware.js');
+const { login, me, refresh, register, logout } = require( './auth.controller.js');
 
 const router = Router();
 

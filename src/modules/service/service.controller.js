@@ -1,5 +1,5 @@
-import Service from './service.model.js';
-import cloudinary from '../../config/cloudinary.js';
+const Service = require('./service.model.js');
+const cloudinary = require('../../config/cloudinary.js');
 
 export const listServices = async (req, res, next) => {
   try {

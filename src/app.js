@@ -1,22 +1,23 @@
-import express from 'express';
-import cors from 'cors';
-import cookieParser from 'cookie-parser';
+const express = require('express');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
-import { env } from './config/env.js';
-import { httpLogger } from './utils/logger.js';
-import { security, apiLimiter } from './middlewares/security.js';
-import { errorHandler, notFound } from './middlewares/errorHandler.js';
+const { env } = require('./config/env.js');
+const { httpLogger } = require('./utils/logger.js');
+const { security, apiLimiter } = require('../src/middlewares/security.js');
+const { errorHandler, notFound } = require('./middlewares/errorHandler.js');
 
-import metricsRoutes from './metrics/metrics.routes.js';
+const metricsRoutes = require('../src/modules/metrics/metrics.routes.js');
 
-import authRoutes from './modules/auth/auth.routes.js';
-import userRoutes from './modules/user/user.routes.js';
-import serviceRoutes from './modules/service/service.routes.js';
-import enquiryRoutes from './modules/enquiry/enquiry.routes.js';
-import categoryRoutes from './modules/category/category.routes.js';
-import subcategoryRoutes from './modules/subcategory/subcategory.routes.js';
-import productRoutes from './modules/product/product.routes.js';
-import searchRoutes from './modules/search/search.routes.js';
+const authRoutes = require('./modules/auth/auth.routes.js');
+const userRoutes = require('./modules/user/user.routes.js');
+const serviceRoutes = require('./modules/service/service.routes.js');
+const enquiryRoutes = require('./modules/enquiry/enquiry.routes.js');
+const categoryRoutes = require('./modules/category/category.routes.js');
+const subcategoryRoutes = require('./modules/subcategory/subcategory.routes.js');
+const productRoutes = require('./modules/product/product.routes.js');
+const searchRoutes = require('./modules/search/search.routes.js');
+
 
 const app = express();
 
@@ -48,4 +49,4 @@ app.use('/api/search', searchRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
-export default app;
+module.exports = app;
