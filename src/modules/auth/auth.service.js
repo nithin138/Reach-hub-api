@@ -5,14 +5,14 @@ const ms = require('ms');
 const { storeRefresh, consumeRefresh, revokeRefresh } = require('./session.store.js');
 const { env } = require('../../config/env.js');
 
-export const registerUser = async ({ name, email, password, role = 'user', phone }) => {
+const registerUser = async ({ name, email, password, role = 'user', phone }) => {
   const exists = await User.findOne({ email });
   if (exists) throw new Error('Email already in use');
   const user = await User.create({ name, email, password, role, phone });
   return user;
 };
 
-export const loginUser = async ({ email, password }) => {
+const loginUser = async ({ email, password }) => {
   const user = await User.findOne({ email });
   if (!user) throw new Error('Invalid credentials');
   const ok = await user.matchPassword(password);
@@ -30,7 +30,7 @@ export const loginUser = async ({ email, password }) => {
   return { user, accessToken, refreshToken };
 };
 
-export const refreshSession = async (token) => {
+const refreshSession = async (token) => {
   const decoded = verifyRefresh(token); // throws if invalid/expired
   const userId = await consumeRefresh(decoded.jti);
   if (!userId) throw new Error('Refresh revoked or not found');
@@ -47,11 +47,18 @@ export const refreshSession = async (token) => {
   return { accessToken: access, refreshToken: newRefresh };
 };
 
-export const logoutSession = async (refreshToken) => {
+const logoutSession = async (refreshToken) => {
   try {
     const decoded = verifyRefresh(refreshToken);
     await revokeRefresh(decoded.jti);
   } catch {
     // ignore invalid token on logout
   }
+};
+
+module.exports = {
+  registerUser,
+  loginUser,
+  refreshSession,
+  logoutSession
 };

@@ -1,7 +1,6 @@
 {
   "name": "reach-hub-api",
   "version": "1.0.0",
-  "type": "module",
   "main": "src/server.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon src/server.js",

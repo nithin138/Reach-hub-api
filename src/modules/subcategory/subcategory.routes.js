@@ -18,4 +18,4 @@ router.post('/', protect, requireRole('admin'), createSubcategory);
 router.put('/:id', protect, requireRole('admin'), updateSubcategory);
 router.delete('/:id', protect, requireRole('admin'), removeSubcategory);
 
-export default router;
+module.exports = router;

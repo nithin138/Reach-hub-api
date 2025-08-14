@@ -12,4 +12,4 @@ router.post('/', protect, requireRole('provider', 'admin'), upload.array('images
 router.put('/:id', protect, requireRole('provider', 'admin'), updateService);
 router.delete('/:id', protect, requireRole('provider', 'admin'), deleteService);
 
-export default router;
+module.exports = router;

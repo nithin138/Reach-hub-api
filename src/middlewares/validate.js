@@ -1,9 +1,9 @@
-const { BadRequest } = require('../utils/errors.js');
+const { BadRequest } = require('../utils/error');
 
 /**
  * validate({ body: zodSchema, query: zodSchema, params: zodSchema })
  */
-export const validate = (schemas) => (req, res, next) => {
+const validate = (schemas) => (req, res, next) => {
   try {
     if (schemas.body) req.body = schemas.body.parse(req.body);
     if (schemas.query) req.query = schemas.query.parse(req.query);
@@ -13,3 +13,5 @@ export const validate = (schemas) => (req, res, next) => {
     next(BadRequest('Validation error', e.errors || e.issues || e));
   }
 };
+
+module.exports = { validate };

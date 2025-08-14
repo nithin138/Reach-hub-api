@@ -16,4 +16,4 @@ const serviceSchema = new mongoose.Schema(
 
 serviceSchema.index({ title: 'text', description: 'text' });
 
-export default mongoose.model('Service', serviceSchema);
+module.exports = mongoose.model('Service', serviceSchema);

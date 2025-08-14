@@ -1,18 +1,32 @@
-const jwt= require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
+const { env } = require('./env.js'); // assuming you have env variables loaded here
 
-export const signToken = (payload, options = {}) =>
-  jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN || '7d', ...options });
+const signToken = (payload, options = {}) =>
+  jwt.sign(payload, process.env.JWT_SECRET, { 
+    expiresIn: process.env.JWT_EXPIRES_IN || '7d', 
+    ...options 
+  });
 
-export const verifyToken = (token) =>
+const verifyToken = (token) =>
   jwt.verify(token, process.env.JWT_SECRET);
-export const signAccess = (payload) =>
+
+const signAccess = (payload) =>
   jwt.sign(payload, env.jwt.accessSecret, { expiresIn: env.jwt.accessTtl });
 
-export const signRefresh = (payload) =>
+const signRefresh = (payload) =>
   jwt.sign(payload, env.jwt.refreshSecret, { expiresIn: env.jwt.refreshTtl });
 
-export const verifyAccess = (token) =>
+const verifyAccess = (token) =>
   jwt.verify(token, env.jwt.accessSecret);
 
-export const verifyRefresh = (token) =>
+const verifyRefresh = (token) =>
   jwt.verify(token, env.jwt.refreshSecret);
+
+module.exports = {
+  signToken,
+  verifyToken,
+  signAccess,
+  signRefresh,
+  verifyAccess,
+  verifyRefresh
+};

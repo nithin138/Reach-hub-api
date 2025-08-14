@@ -1,10 +1,12 @@
-const { verifyAccess }  = require( '../config/jwt.js');
-const { Unauthorized, Forbidden } = require( '../utils/errors.js');
+const { verifyAccess }  = require('../config/jwt.js');
+const { Unauthorized, Forbidden } = require('../utils/error.js');
 
-export const protect = (req, res, next) => {
+const protect = (req, res, next) => {
   const header = req.headers.authorization || '';
   const token = header.startsWith('Bearer ') ? header.split(' ')[1] : null;
+  
   if (!token) return next(Unauthorized());
+  
   try {
     const decoded = verifyAccess(token);
     req.user = decoded; // { id, role, iat, exp }
@@ -14,8 +16,10 @@ export const protect = (req, res, next) => {
   }
 };
 
-export const requireRole = (...roles) => (req, res, next) => {
+const requireRole = (...roles) => (req, res, next) => {
   if (!req.user) return next(Unauthorized());
   if (!roles.includes(req.user.role)) return next(Forbidden());
   next();
 };
+
+module.exports = { protect, requireRole };

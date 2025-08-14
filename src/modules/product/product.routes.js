@@ -14,4 +14,4 @@ router.post('/', protect, requireRole('provider', 'admin'), createProduct);
 router.put('/:id', protect, requireRole('provider', 'admin'), updateProduct);
 router.delete('/:id', protect, requireRole('provider', 'admin'), deleteProduct);
 
-export default router;
+module.exports = router;

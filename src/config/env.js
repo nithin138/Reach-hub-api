@@ -1,6 +1,6 @@
 require('dotenv/config.js');
 
-export const env = {
+exports.env = {
   node: process.env.NODE_ENV || 'development',
   port: Number(process.env.PORT || 5000),
 

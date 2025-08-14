@@ -17,4 +17,4 @@ router.get('/user/me', protect, requireRole('user', 'admin'), listMyEnquiriesFor
 // provider updates enquiry status
 router.patch('/:id/status', protect, requireRole('provider', 'admin'), updateEnquiryStatus);
 
-export default router;
+module.exports = router;
