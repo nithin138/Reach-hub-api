@@ -17,6 +17,7 @@ const categoryRoutes = require('./modules/category/category.routes.js');
 const subcategoryRoutes = require('./modules/subcategory/subcategory.routes.js');
 const productRoutes = require('./modules/product/product.routes.js');
 const searchRoutes = require('./modules/search/search.routes.js');
+const partnerRoutes = require('./modules/partner/partner.routes.js');
 
 
 const app = express();
@@ -43,6 +44,7 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/subcategories', subcategoryRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/search', searchRoutes);
+app.use('/api/partners', partnerRoutes);
 
 // docs
 
