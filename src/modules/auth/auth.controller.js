@@ -40,7 +40,7 @@ const resetPassword = [
   validate({ body: resetPasswordSchema }),
   async (req, res, next) => {
     try {
-      await resetPasswordService(req.body.email, req.body.newPassword, req.body.otp);
+      await resetPasswordService(req.body.email, req.body.password);
       res.json({ success: true, message: 'Password reset successfully' });
     } catch (e) {
       next(BadRequest(e.message));

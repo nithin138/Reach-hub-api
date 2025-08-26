@@ -4,27 +4,24 @@ const { signAccess, signRefresh, verifyRefresh } = require('../../config/jwt.js'
 const ms = require('ms');
 const { storeRefresh, consumeRefresh, revokeRefresh } = require('./session.store.js');
 const { env } = require('../../config/env.js');
+const { sendEmail } = require('../../utils/email.js');
+const { redis } = require('../../config/redis.js');
 
 // ---------------- OTP ----------------
-const OTP_TTL = 300; // 5 min
-
+const OTP_TTL = 500; // 5 min
 const sendOtpService = async (email) => {
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
-  await redis.setex(`otp:${email}`, OTP_TTL, otp);
-  await sendMail(email, 'Your OTP Code', `Your OTP is: ${otp}`);
-};
-
+  await redis.set(`otp:${email}`, otp, { EX: OTP_TTL });
+  await sendEmail(email,'Your OTP Code',`Your OTP is: <b>${otp}</b>`)};
 const verifyOtpService = async (email, otp) => {
   const cached = await redis.get(`otp:${email}`);
   if (!cached) throw new Error('OTP expired or not found');
   if (cached !== otp) throw new Error('Invalid OTP');
+
   await redis.del(`otp:${email}`);
   return true;
 };
-
-const resetPasswordService = async (email, newPassword, otp) => {
-  const ok = await verifyOtpService(email, otp);
-  if (!ok) throw new Error('OTP verification failed');
+const resetPasswordService = async (email, newPassword) => {
   const user = await User.findOne({ email });
   if (!user) throw new Error('User not found');
   user.password = newPassword;
@@ -39,12 +36,12 @@ const registerUser = async ({ name, email, password, role = 'user', phone }) => 
   return user;
 };
 
-const loginUser = async ({ email, password }) => {
+const loginUser = async ({ email, password, role }) => {
   const user = await User.findOne({ email });
   if (!user) throw new Error('Invalid credentials');
     // role conflict check
   if (role && user.role !== role) {
-    throw new Error(`This email is already registered with role ${user.role}`);
+    throw new Error(`This email is already registered with a ${user.role}`);
   }
   const ok = await user.matchPassword(password);
   if (!ok) throw new Error('Invalid credentials');

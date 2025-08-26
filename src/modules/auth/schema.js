@@ -10,7 +10,8 @@ const registerSchema = z.object({
 
 const loginSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(1)
+  password: z.string().min(1),
+    role: z.enum(['user', 'provider', 'admin']).optional(),
 });
 const sendOtpSchema = z.object({
   email: z.string().email(),
@@ -20,6 +21,7 @@ const verifyOtpSchema = z.object({
   otp: z.string().min(1)
 });
 const resetPasswordSchema = z.object({
+    email: z.string().email(),
   password: z.string().min(1)
 });
 
