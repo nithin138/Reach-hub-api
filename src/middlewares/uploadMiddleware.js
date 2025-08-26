@@ -1,36 +1,64 @@
-const path = require("path");
-const { uploadFile } = require("../helpers/fileUploader");
+const multer = require("multer");
+const streamifier = require("streamifier");
+const cloudinary = require("../config/cloudinary");
+
+// Memory storage so files don’t touch disk
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
+
+// Cloudinary helper
+const uploadToCloudinary = (fileBuffer, folder = "uploads") => {
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      { folder },
+      (error, result) => {
+        if (error) reject(error);
+        else resolve(result);
+      }
+    );
+    streamifier.createReadStream(fileBuffer).pipe(stream);
+  });
+};
 
 const uploadMiddleware = async (req, res, next) => {
-    console.log(req.file)
   try {
-    let uploadedKeys = [];
+    if (!req.files || req.files.length === 0) {
+      return next(); // no files uploaded
+    }
 
-    if (req.file) {
-      const key = `uploads/${Date.now()}-${req.file.originalname}`;
-      const success = await uploadFile(req.file, key);
-      if (!success) throw new Error("File upload failed");
-      uploadedKeys = [key];
-    } else if (req.files && req.files.length > 0) {
-      uploadedKeys = await Promise.all(
-        req.files.map(async (file) => {
-          const key = `uploads/${Date.now()}-${file.originalname}`;
-          const success = await uploadFile(file, key);
-          if (!success) throw new Error("File upload failed");
-          return key;
+    const bodyUpdates = {};
+
+    // Normalize req.files → always work with an array
+    const filesArray = Array.isArray(req.files)
+      ? req.files
+      : Object.values(req.files).flat();
+
+    // Group by fieldname
+    const grouped = {};
+    filesArray.forEach((file) => {
+      if (!grouped[file.fieldname]) grouped[file.fieldname] = [];
+      grouped[file.fieldname].push(file);
+    });
+
+    // Upload grouped files
+    for (const fieldName of Object.keys(grouped)) {
+      const urls = await Promise.all(
+        grouped[fieldName].map(async (file) => {
+          if (!file.buffer) throw new Error("File buffer missing");
+          const result = await uploadToCloudinary(file.buffer, "uploads");
+          return result.secure_url;
         })
       );
+
+      bodyUpdates[fieldName] = urls.length === 1 ? urls[0] : urls;
     }
 
-    req.uploadedKeys = uploadedKeys;
-    return next(); // ✅ Only one next() call
+    req.body = { ...req.body, ...bodyUpdates };
+    next();
   } catch (error) {
-    console.error("File upload error:", error);
-    if (!res.headersSent) {
-      res.status(500).json({ error: "Failed to process uploaded files" });
-    }
+    console.error("Cloudinary upload error:", error);
+    res.status(500).json({ error: "Failed to upload files", details: error.message });
   }
 };
 
-
-module.exports = uploadMiddleware;
+module.exports = { upload, uploadMiddleware };

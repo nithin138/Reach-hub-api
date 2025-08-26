@@ -47,7 +47,8 @@ const listByCategorySlug = async (req, res, next) => {
 
 const createSubcategory = async (req, res, next) => {
   try {
-    const { name, categoryId, sortOrder = 0, isActive = true } = req.body;
+    console.log("Request Body:", req.body); // Debugging line
+    const { name, categoryId, sortOrder = 0, isActive = true,icon } = req.body;
     const slug = req.body.slug ? toSlug(req.body.slug) : toSlug(name);
     const exists = await Subcategory.findOne({
       $or: [{ name, categoryId }, { slug, categoryId }],
@@ -61,6 +62,7 @@ const createSubcategory = async (req, res, next) => {
       name,
       slug,
       categoryId,
+      icon,
       sortOrder,
       isActive,
     });
