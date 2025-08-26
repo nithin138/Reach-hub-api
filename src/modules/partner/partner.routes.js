@@ -1,11 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const partnerController = require("./partner.controller.js");
-// const uploadMiddleware = require("../../middlewares/uploadMiddleware"); // handles image uploads
+const { upload, uploadMiddleware } = require("../../middlewares/uploadMiddleware.js");
+const { protect } = require("../../middlewares/authMiddleware.js");
 
 // Partner signup
 router.post("/", 
-    // uploadMiddleware,
+   upload.any(), uploadMiddleware,
+   protect,
      partnerController.createPartner);
 
 // OTP routes

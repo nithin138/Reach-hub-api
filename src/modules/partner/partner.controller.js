@@ -9,7 +9,7 @@ const generateOtp = () => Math.floor(100000 + Math.random() * 900000).toString()
 // @route   POST /api/partners
 exports.createPartner = async (req, res) => {
   try {
-    const { name, email, phone, aadharCard, gst, address } = req.body;
+    const { name, email, phone, aadharCard, gst, address,image,coverPhoto } = req.body;
 
     // Check existing
     const existing = await Partner.findOne({ $or: [{ email }, { phone }] });
@@ -24,8 +24,9 @@ exports.createPartner = async (req, res) => {
       aadharCard,
       gst,
       address,
-      image: req.files?.imageUrl, // upload middleware returns string
-      coverPhoto: req.files?.coverPhotoUrl,
+      image, 
+      coverPhoto,
+      user:req.user.id
     });
 
     await partner.save();
